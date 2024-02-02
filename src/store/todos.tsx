@@ -1,4 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // createContext
 // provider
@@ -25,6 +26,7 @@ export const todosContext = createContext<TodosContext | null>(null);
 
 export const TodosProvider = ({ children }: TodosProviderProp) => {
 
+    const navigate = useNavigate();
     const [todos, setTodos] = useState<Todo[]>(() => {
         try {
             const newTodos = localStorage.getItem("todos") || "[]";
@@ -36,19 +38,23 @@ export const TodosProvider = ({ children }: TodosProviderProp) => {
     });
 
     const handleAddToDo = (task: string) => {
-        setTodos((prev: Todo[]): Todo[] => {
-            prev = [
-                {
-                    id: Math.random().toString(),
-                    task: task,
-                    completed: false,
-                    createdAt: new Date()
-                },
-                ...prev
-            ]
-            localStorage.setItem("todos", JSON.stringify(prev));
-            return prev;
-        })
+        if (task.trim())
+            setTodos((prev: Todo[]): Todo[] => {
+                prev = [
+                    {
+                        id: Math.random().toString(),
+                        task: task,
+                        completed: false,
+                        createdAt: new Date()
+                    },
+                    ...prev
+                ]
+                localStorage.setItem("todos", JSON.stringify(prev));
+                return prev;
+            })
+
+        navigate('/');
+        // window.location.href = 'http://localhost:5173/';
     }
 
     //completed task

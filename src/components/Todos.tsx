@@ -22,6 +22,7 @@ const Todos = () => {
                             onChange={() => toggleTodoAsCompleted(todo.id)}
                         />
                         <label htmlFor={`todo-${todo.id}`}>{todo.task}</label>
+                        <label htmlFor={`todo-${todo.id}`}>{todo.createdAt.slice(0, 10)}</label>
                         {
                             todo.completed && <button type='button' onClick={() => handleTodoDelete(todo.id)}>Delete</button>
                         }
